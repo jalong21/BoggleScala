@@ -4,8 +4,8 @@ import akka.stream.Materializer
 import models.Spot
 
 import javax.inject.Inject
+import scala.+:
 import scala.concurrent.Future
-
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class BogglePlayer @Inject()(implicit val materializer: Materializer) {
@@ -23,12 +23,13 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
     // given a squre of size x size, how do I make a sequence of spots
     // that know what its connected spots are?
 
-    val spots: Seq[Spot] = Seq[Spot]()
+    var spots: Seq[Spot] = Seq[Spot]()
 
     for (row <- 0 until size - 1) {
       for (column <- 0 until size - 1) {
         val pos = row*column
         val spot = Spot(pos, getConnectedposs(pos, size))
+        spots = spot +: spots
       }
     }
 
@@ -44,11 +45,10 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
         case (pos, size) if pos == size * size - size => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos)) // bottom left
         case (pos, size) if pos == size - 1 => Seq[Int](getSpotAbove(pos, size), getSpotLeft(pos), getSpotAboveLeft(pos, size)) // botom right
         case (pos, size) if pos < size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotBelow(pos, size), getSpotBelowRight(pos, size), getSpotBelowLeft(pos, size)) // top row
+        case (pos, size) if pos > size * size - size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotAboveLeft(pos, size)) // top row
         case (pos, size) if pos % size == 0 => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos), getSpotBelowLeft(pos, size), getSpotBelow(pos, size)) // left side
-        case (pos, size) if
-        case (pos, size) if pos < size => {
-          // top row
-        }
+        case (pos, size) if pos % size == size -1 => Seq[Int](getSpotLeft(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size)) // right side
+        case (pos, size) if pos < size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size), getSpotBelowRight(pos, size), getSpotAboveRight(pos, size)) // everything in the middle
       }
   }
 
