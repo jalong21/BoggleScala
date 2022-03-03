@@ -6,6 +6,7 @@ import play.api.mvc._
 import services.BogglePlayer
 
 import javax.inject.Inject
+import scala.util.{Failure, Success, Try}
 
 class BoggleController @Inject()(cc: ControllerComponents,
                                  player: BogglePlayer) extends AbstractController(cc) {
@@ -18,7 +19,10 @@ class BoggleController @Inject()(cc: ControllerComponents,
         BadRequest("Board size must be between 4 and 8")
       }
       else {
-        Ok(Json.toJson(player.playBoggle(boardSize)))
+        Try(player.playBoggle(boardSize)) match {
+          case Success(game) => Ok(Json.toJson(game))
+          case Failure(exception) => InternalServerError(exception.getMessage)
+        }
       }
     }
   }
