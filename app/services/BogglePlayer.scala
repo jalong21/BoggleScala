@@ -77,11 +77,11 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
       (pos, size) match {
         case (_, size) if size < 3 => throw new Exception("Board is less than 3x3. Not Bogglable!")
         case (0, _) => Seq[Int](1, size, size + 1) // top Left
-        case (pos, size) if pos == size -1 => Seq[Int](size -2, size*2-2, size*2-1) // top Right
+        case (pos, size) if pos == size - 1 => Seq[Int](size -2, size*2-2, size*2-1) // top Right
         case (pos, size) if pos == size * size - size => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos)) // bottom left
-        case (pos, size) if pos == size - 1 => Seq[Int](getSpotAbove(pos, size), getSpotLeft(pos), getSpotAboveLeft(pos, size)) // bottom right
+        case (pos, size) if pos == size * size - 1 => Seq[Int](getSpotAbove(pos, size), getSpotLeft(pos), getSpotAboveLeft(pos, size)) // bottom right
         case (pos, size) if pos < size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotBelow(pos, size), getSpotBelowRight(pos, size), getSpotBelowLeft(pos, size)) // top row
-        case (pos, size) if pos > size * size - size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotAboveLeft(pos, size)) // top row
+        case (pos, size) if pos > size * size - size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotAboveLeft(pos, size)) // bottom row
         case (pos, size) if pos % size == 0 => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos), getSpotBelowLeft(pos, size), getSpotBelow(pos, size)) // left side
         case (pos, size) if pos % size == size -1 => Seq[Int](getSpotLeft(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size)) // right side
         case (pos, size) if pos < size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size), getSpotBelowRight(pos, size), getSpotAboveRight(pos, size)) // everything in the middle
