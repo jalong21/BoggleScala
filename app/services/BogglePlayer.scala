@@ -33,7 +33,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
       }
     }
     else if (DictionarySearcher.wordsExistsThatStartWith(currentWord)) {
-      unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot, currentWord +: results)).flatten
+      unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot, results)).flatten
     }
     else {
       results
