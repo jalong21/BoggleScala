@@ -11,8 +11,6 @@ import scala.util.{Failure, Success, Try}
 class BoggleController @Inject()(cc: ControllerComponents,
                                  player: BogglePlayer) extends AbstractController(cc) {
 
-  val log = Logger(this.getClass.getName)
-
   def playBoggle(boardSize: Int) = Action {
     request => {
       if(boardSize < 3 || boardSize > 8) {
