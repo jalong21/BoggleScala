@@ -83,7 +83,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
   private def getConnectedPoss(pos: Int, size: Int): Seq[Int] = {
 
       (pos, size) match {
-        case (_, size) if size < 3 => throw new Exception("Board is less than 3x3. Not Bogglable!")
+        case (_, size) if size < 3 => throw new Exception("Board is less than 4x4!") // controller check should make this impossible
         case (0, _) => Seq[Int](1, size, size + 1) // top Left
         case (pos, size) if pos == size - 1 => Seq[Int](size -2, size*2-2, size*2-1) // top Right
         case (pos, size) if pos == size * size - size => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos)) // bottom left
