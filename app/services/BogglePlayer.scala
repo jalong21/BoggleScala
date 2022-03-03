@@ -11,7 +11,10 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
 
   def playBoggle(size: Int): Game = {
 
+    // this should result in a Seq of "spots" which have a
+    // letter, position, and list of adjacent position to help navigate.
     val board = generateBoard(size)
+
     // call the search method on every possible starting spot
     // That will be every spot on the board
     // .flatten.distinct will reduce the list to a single flat list of strings and remove any duplicates
