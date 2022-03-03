@@ -13,6 +13,13 @@ class BoggleController @Inject()(cc: ControllerComponents,
   val log = Logger(this.getClass.getName)
 
   def playBoggle(boardSize: Int) = Action {
-    request => Ok(Json.toJson(player.playBoggle(boardSize)))
+    request => {
+      if(boardSize < 3 || boardSize > 8) {
+        BadRequest("Board size must be between 4 and 8")
+      }
+      else {
+        Ok(Json.toJson(player.playBoggle(boardSize)))
+      }
+    }
   }
 }

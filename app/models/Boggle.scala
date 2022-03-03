@@ -53,10 +53,10 @@ object WeightedLetters {
    */
   def getRandomWeightedLetter(): String = {
     // I"m sure this can be done in a more scalaish way
-    var randomInt = (Math.random() * totalWeight).toInt - 2
+    var randomNum = Math.random() * totalWeight - 2
     letters.takeWhile(letter => {
-      randomInt = randomInt - letter._2
-      randomInt > 0
+      randomNum = randomNum - letter._2
+      randomNum > 0
     }).last._1
   }
 
