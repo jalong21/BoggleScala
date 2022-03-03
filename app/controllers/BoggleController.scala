@@ -13,7 +13,7 @@ class BoggleController @Inject()(cc: ControllerComponents,
 
   def playBoggle(boardSize: Int) = Action {
     request => {
-      if(boardSize < 3 || boardSize > 8) {
+      if(boardSize < 4 || boardSize > 8) {
         BadRequest("Board size must be between 4 and 8")
       }
       else {
