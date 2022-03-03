@@ -7,15 +7,13 @@ import javax.inject.Inject
 
 class BogglePlayer @Inject()(implicit val materializer: Materializer) {
 
-
-
   def playBoggle(size: Int) = {
 
     val board = generateBoard(size)
-    search(board, Seq[Spot](board.head), Seq[String]())
+    search(board, Seq[Spot](board.head))
   }
 
-  private def search(board: Seq[Spot], currentSpots: Seq[Spot], results: Seq[String]): Seq[String] = {
+  private def search(board: Seq[Spot], currentSpots: Seq[Spot]): Seq[String] = {
 
     val currentWord: String = currentSpots.map(_.char).foldLeft[String]("")((soFar, char) => soFar.appended(char))
     val unusedAdjacentSpots: Seq[Spot] = currentSpots
@@ -25,18 +23,13 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
       .filterNot(spot => currentSpots.contains(spot))
 
     if (DictionarySearcher.isWord(currentWord)) {
-      if (unusedAdjacentSpots.size > 0) {
-        unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot, currentWord +: results)).flatten
-      }
-      else {
-        currentWord +: results
-      }
+      currentWord +: unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot)).flatten
     }
     else if (DictionarySearcher.wordsExistsThatStartWith(currentWord)) {
-      unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot, results)).flatten
+      unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot)).flatten
     }
     else {
-      results
+      Seq[String]()
     }
   }
 
