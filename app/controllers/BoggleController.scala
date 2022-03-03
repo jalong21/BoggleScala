@@ -15,5 +15,4 @@ class BoggleController @Inject()(cc: ControllerComponents,
   def playBoggle(boardSize: Int) = Action {
     request => Ok(Json.toJson(player.playBoggle(boardSize)))
   }
-
 }
