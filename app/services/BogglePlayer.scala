@@ -70,8 +70,8 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
 
     var spots: Seq[Spot] = Seq[Spot]()
     var count = 0
-    for (row <- 1 until size) {
-      for (column <- 1 until size) {
+    for (row <- 0 until size) {
+      for (column <- 0 until size) {
         val spot = Spot(WeightedLetters.getRandomWeightedLetter(), count, getConnectedPoss(count, size))
         spots = spot +: spots
         count = count + 1
@@ -90,7 +90,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
         case (pos, size) if pos == size * size - 1 => Seq[Int](getSpotAbove(pos, size), getSpotLeft(pos), getSpotAboveLeft(pos, size)) // bottom right
         case (pos, size) if pos < size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotBelow(pos, size), getSpotBelowRight(pos, size), getSpotBelowLeft(pos, size)) // top row
         case (pos, size) if pos > size * size - size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotAboveLeft(pos, size)) // bottom row
-        case (pos, size) if pos % size == 0 => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos), getSpotBelowLeft(pos, size), getSpotBelow(pos, size)) // left side
+        case (pos, size) if pos % size == 0 => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos), getSpotBelowRight(pos, size), getSpotBelow(pos, size)) // left side
         case (pos, size) if pos % size == size -1 => Seq[Int](getSpotLeft(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size)) // right side
         case (pos, size) => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size), getSpotBelowRight(pos, size), getSpotAboveRight(pos, size)) // everything in the middle
       }

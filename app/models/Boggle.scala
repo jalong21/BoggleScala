@@ -16,33 +16,34 @@ case class Letter(letter: String, weight: Int)
 
 object WeightedLetters {
 
-  val letters = Map[String, Int](
-    ("A" -> 80),
-    ("B" -> 16),
-    ("C" -> 30),
-    ("D" -> 44),
-    ("E" -> 120),
-    ("F" -> 25),
-    ("G" -> 17),
-    ("H" -> 64),
-    ("I" -> 80),
-    ("J" -> 4),
-    ("K" -> 8),
-    ("L" -> 40),
-    ("M" -> 30),
-    ("N" -> 80),
-    ("O" -> 80),
-    ("P" -> 17),
-    ("Q" -> 5),
-    ("R" -> 62),
-    ("S" -> 80),
-    ("T" -> 90),
-    ("U" -> 34),
-    ("V" -> 12),
-    ("W" -> 20),
-    ("X" -> 4),
-    ("Y" -> 20),
-    ("Z" -> 2))
+  val letters = Seq[(String, Int)](
+    ("a" -> 1),
+    ("a" -> 80),
+    ("b" -> 16),
+    ("c" -> 30),
+    ("d" -> 44),
+    ("e" -> 120),
+    ("f" -> 25),
+    ("g" -> 17),
+    ("h" -> 64),
+    ("i" -> 80),
+    ("j" -> 4),
+    ("k" -> 8),
+    ("l" -> 40),
+    ("m" -> 30),
+    ("n" -> 80),
+    ("o" -> 80),
+    ("p" -> 17),
+    ("q" -> 5),
+    ("r" -> 62),
+    ("s" -> 80),
+    ("t" -> 90),
+    ("u" -> 34),
+    ("v" -> 12),
+    ("w" -> 20),
+    ("x" -> 4),
+    ("y" -> 20),
+    ("z" -> 2))
 
   var totalWeight = letters.map(_._2).sum
 
@@ -52,11 +53,11 @@ object WeightedLetters {
    */
   def getRandomWeightedLetter(): String = {
     // I"m sure this can be done in a more scalaish way
-    var randomInt = (Math.random() * totalWeight).toInt - 1
-    letters.takeWhile(leter => {
-      randomInt = randomInt - leter._2
+    var randomInt = (Math.random() * totalWeight).toInt - 2
+    letters.takeWhile(letter => {
+      randomInt = randomInt - letter._2
       randomInt > 0
-    }).head._1
+    }).last._1
   }
 
 }
