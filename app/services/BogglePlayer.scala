@@ -1,21 +1,23 @@
 package services
 
 import akka.stream.Materializer
-import models.{Spot, WeightedLetters}
+import models.{Game, Spot, WeightedLetters}
 
 import javax.inject.Inject
 
 class BogglePlayer @Inject()(implicit val materializer: Materializer) {
 
-  def playBoggle(size: Int) = {
+  def playBoggle(size: Int): Game = {
 
     val board = generateBoard(size)
     // call the search method on every possible starting spot
     // That will be every spot on the board
     // .flatten.distinct will reduce the list to a single flat list of strings and remove any duplicates
-    board.map(spot => search(board, Seq[Spot](spot)))
+    val solutions = board.map(spot => search(board, Seq[Spot](spot)))
       .flatten
       .distinct
+
+    Game(board, solutions)
   }
 
   /**
@@ -43,7 +45,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
     // what string does the current seq of spots generate?
     val currentWord: String = currentSpots
       .map(_.char)
-      .foldLeft[String]("")((soFar, char) => soFar.appended(char))
+      .foldLeft[String]("")((soFar, char) => soFar.appendedAll(char))
 
     val unusedAdjacentSpots: Seq[Spot] = currentSpots // spot sequence so far
       .last // most recent spot

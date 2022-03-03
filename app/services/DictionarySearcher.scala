@@ -4,7 +4,7 @@ import scala.io.Source
 
 object DictionarySearcher {
 
-  val words = (for (line <- Source.fromFile("conf/english3.txt").getLines()) yield line).toSeq
+  private val words = (for (line <- Source.fromFile("conf/english3.txt").getLines()) yield line).toSeq
 
   def wordsExistsThatStartWith(prefix: String): Boolean = words.exists(_.startsWith(prefix))
 
