@@ -1,7 +1,7 @@
 package services
 
 import akka.stream.Materializer
-import models.{Spot, WeightedLeters}
+import models.{Spot, WeightedLetters}
 
 import javax.inject.Inject
 
@@ -64,7 +64,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
     var count = 0
     for (row <- 1 until size) {
       for (column <- 1 until size) {
-        val spot = Spot(WeightedLeters.getRandomWeightedLetter(), count, getConnectedPoss(count, size))
+        val spot = Spot(WeightedLetters.getRandomWeightedLetter(), count, getConnectedPoss(count, size))
         spots = spot +: spots
         count = count + 1
       }

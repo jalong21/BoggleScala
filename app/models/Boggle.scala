@@ -8,9 +8,9 @@ case class Spot(char: Char, position: Int, connectedPositions: Seq[Int])
 
 case class Letter(leter: Char, weight: Int)
 
-object WeightedLeters {
+object WeightedLetters {
 
-  val leters = Map[Char, Int](
+  val letters = Map[Char, Int](
     ('A' -> 80),
     ('B' -> 16),
     ('C' -> 30),
@@ -38,12 +38,16 @@ object WeightedLeters {
     ('Y' -> 20),
     ('Z' -> 2))
 
-  var totalWeight = leters.map(_._2).sum
+  var totalWeight = letters.map(_._2).sum
 
+  /*
+  This method should return a random character with its probability of being returned
+  weighted based on its usage in the english language.
+   */
   def getRandomWeightedLetter(): Char = {
     // I'm sure this can be done in a more scalaish way
     var randomInt = (Math.random() * totalWeight).toInt - 1
-    leters.takeWhile(leter => {
+    letters.takeWhile(leter => {
       randomInt = randomInt - leter._2
       randomInt > 0
     }).head._1
