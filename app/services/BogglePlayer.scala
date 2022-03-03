@@ -84,7 +84,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
         case (pos, size) if pos > size * size - size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotAboveLeft(pos, size)) // bottom row
         case (pos, size) if pos % size == 0 => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos), getSpotBelowLeft(pos, size), getSpotBelow(pos, size)) // left side
         case (pos, size) if pos % size == size -1 => Seq[Int](getSpotLeft(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size)) // right side
-        case (pos, size) if pos < size => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size), getSpotBelowRight(pos, size), getSpotAboveRight(pos, size)) // everything in the middle
+        case (pos, size) => Seq[Int](getSpotLeft(pos), getSpotRight(pos), getSpotAbove(pos, size), getSpotBelow(pos, size), getSpotBelowLeft(pos, size), getSpotAboveLeft(pos, size), getSpotBelowRight(pos, size), getSpotAboveRight(pos, size)) // everything in the middle
       }
   }
 
