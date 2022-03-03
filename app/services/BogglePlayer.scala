@@ -36,12 +36,12 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
   private def generateBoard(size: Int): Seq[Spot] = {
 
     var spots: Seq[Spot] = Seq[Spot]()
-
-    for (row <- 0 until size - 1) {
-      for (column <- 0 until size - 1) {
-        val pos = row*column
-        val spot = Spot(WeightedLeters.getRandomWeightedLetter(), pos, getConnectedPoss(pos, size))
+    var count = 0
+    for (row <- 1 until size) {
+      for (column <- 1 until size) {
+        val spot = Spot(WeightedLeters.getRandomWeightedLetter(), count, getConnectedPoss(count, size))
         spots = spot +: spots
+        count = count + 1
       }
     }
     spots
