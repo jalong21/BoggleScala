@@ -1,11 +1,13 @@
 package services
 
 import akka.stream.Materializer
+import com.google.common.base.Strings
 import models.{Game, Spot, WeightedLetters}
 
 import javax.inject.Inject
 
-class BogglePlayer @Inject()(implicit val materializer: Materializer) {
+class BogglePlayer @Inject()(implicit val materializer: Materializer,
+                             dictionary: DictionarySearcher) {
 
   def playBoggle(size: Int): Game = {
 
@@ -45,7 +47,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
     // what string does the current seq of spots generate?
     val currentWord: String = currentSpots
       .map(_.char)
-      .foldLeft[String]("")((soFar, char) => soFar.appendedAll(char))
+      .foldLeft[String]("")((soFar, char) => soFar + char)
 
     val unusedAdjacentSpots: Seq[Spot] = currentSpots // spot sequence so far
       .last // most recent spot
@@ -53,10 +55,10 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer) {
       .map(position => board.filter(_.position == position).head) // get spot object for adjacent spot number
       .filterNot(spot => currentSpots.contains(spot)) // filter out visited spots
 
-    if (DictionarySearcher.isWord(currentWord)) {
+    if (dictionary.isWord(currentWord)) {
       currentWord +: unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot)).flatten
     }
-    else if (DictionarySearcher.wordsExistsThatStartWith(currentWord)) {
+    else if (dictionary.wordsExistsThatStartWith(currentWord)) {
       unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot)).flatten
     }
     else {

@@ -2,7 +2,7 @@ package services
 
 import scala.io.Source
 
-object DictionarySearcher {
+class DictionarySearcher {
 
   private val words = (for (line <- Source.fromFile("conf/english3.txt").getLines()) yield line).toSeq
 
