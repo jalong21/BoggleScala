@@ -2,14 +2,14 @@ package services
 
 import akka.stream.Materializer
 import com.google.common.base.Strings
-import models.{Game, Spot, WeightedLetters}
+import models.{Game, Solution, Spot, WeightedLetters}
 
 import javax.inject.Inject
 
 class BogglePlayer @Inject()(implicit val materializer: Materializer,
                              dictionary: DictionarySearcher) {
 
-  def playBoggle(size: Int): Game = {
+  def playBoggle(size: Int): Solution = {
 
     // this should result in a Seq of "spots" which have a
     // letter, position, and list of adjacent position to help navigate.
@@ -22,7 +22,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
       .flatten
       .distinct
 
-    Game(board, solutions)
+    Solution(GamePrinter.printGame(Game(board, solutions)), solutions)
   }
 
   /**
@@ -58,7 +58,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
       .map(position => board.filter(_.position == position).head) // get spot object for adjacent spot number
       .filterNot(spot => currentSpots.contains(spot)) // filter out visited spots
 
-    if (dictionary.isWord(currentWord)) {
+    if (dictionary.isWord(currentWord) && currentWord.size > 2) {
       currentWord +: unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot)).flatten
     }
     else if (dictionary.wordsExistsThatStartWith(currentWord)) {

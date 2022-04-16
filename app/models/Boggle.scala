@@ -12,6 +12,11 @@ object Game {
   implicit val jsonWrites: Writes[Game] = Json.writes[Game]
 }
 
+case class Solution(printout: Seq[String], solutions: Seq[String])
+object Solution {
+  implicit val jsonWrites: Writes[Solution] = Json.writes[Solution]
+}
+
 case class Letter(letter: String, weight: Int)
 
 object WeightedLetters {
