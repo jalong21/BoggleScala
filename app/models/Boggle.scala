@@ -22,7 +22,6 @@ case class Letter(letter: String, weight: Int)
 object WeightedLetters {
 
   val letters = Seq[(String, Int)](
-    ("a" -> 1),
     ("a" -> 80),
     ("b" -> 16),
     ("c" -> 30),
@@ -50,7 +49,7 @@ object WeightedLetters {
     ("y" -> 20),
     ("z" -> 2))
 
-  var totalWeight = letters.map(_._2).sum
+  val totalWeight = letters.map(_._2).sum
 
   /*
   This method should return a random character with its probability of being returned
@@ -58,11 +57,10 @@ object WeightedLetters {
    */
   def getRandomWeightedLetter(): String = {
     // I"m sure this can be done in a more scalaish way
-    var randomNum = Math.random() * totalWeight - 2
-    letters.takeWhile(letter => {
+    var randomNum = Math.random() * totalWeight
+    letters.dropWhile(letter => {
       randomNum = randomNum - letter._2
       randomNum > 0
-    }).last._1
+    }).head._1
   }
-
 }
