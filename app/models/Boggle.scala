@@ -12,7 +12,7 @@ object Game {
   implicit val jsonWrites: Writes[Game] = Json.writes[Game]
 }
 
-case class Solution(printout: Seq[String], solutions: Seq[String])
+case class Solution(printout: Seq[String], solutionCount: Int, solutions: Seq[String])
 object Solution {
   implicit val jsonWrites: Writes[Solution] = Json.writes[Solution]
 }

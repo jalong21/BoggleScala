@@ -21,8 +21,9 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
     val solutions = board.map(spot => search(board, Seq[Spot](spot)))
       .flatten
       .distinct
+      .sorted
 
-    Solution(GamePrinter.printGame(Game(board, solutions)), solutions)
+    Solution(GamePrinter.printGame(Game(board, solutions)), solutions.size, solutions)
   }
 
   /**
