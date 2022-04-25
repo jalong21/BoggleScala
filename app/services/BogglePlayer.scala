@@ -59,7 +59,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
       .map(position => board.filter(_.position == position).head) // get spot object for adjacent spot number
       .filterNot(spot => currentSpots.contains(spot)) // filter out visited spots
 
-    if (dictionary.isWord(currentWord) && currentWord.size > 2) {
+    if (dictionary.isWord(currentWord) && currentWord.size > 1) {
       currentWord +: unusedAdjacentSpots.map(spot => search(board, currentSpots :+ spot)).flatten
     }
     else if (dictionary.wordsExistsThatStartWith(currentWord)) {
@@ -87,7 +87,7 @@ class BogglePlayer @Inject()(implicit val materializer: Materializer,
   private def getConnectedPoss(pos: Int, size: Int): Seq[Int] = {
 
       (pos, size) match {
-        case (_, size) if size < 3 => throw new Exception("Board is less than 4x4!") // controller check should make this impossible
+        case (_, size) if size < 1 => throw new Exception("Board is less than 2x2!") // controller check should make this impossible
         case (0, _) => Seq[Int](1, size, size + 1) // top Left
         case (pos, size) if pos == size - 1 => Seq[Int](size -2, size*2-2, size*2-1) // top Right
         case (pos, size) if pos == size * size - size => Seq[Int](getSpotAbove(pos, size), getSpotAboveRight(pos, size), getSpotRight(pos)) // bottom left
